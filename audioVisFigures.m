@@ -305,7 +305,7 @@ fprintf('Full vs. behavioral model: p-value %d.\n',p_pred(3))
 
 %% Suppl. Fig. 2--Similarity across animals and regions
 
-focusOn = 'sound'; % or 'video'
+focusOn = 'video'; % or 'video'
 spkVIS = load(fullfile(preprocFolder,'Mainfig',sprintf('allMainfig_%s_ephysNormal_VIS.mat',focusOn)));
 spkHPF = load(fullfile(preprocFolder,'Mainfig',sprintf('allMainfig_%s_ephysNormal_HPF.mat',focusOn)));
 spkPredVIS = load(fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-ridge_ephysNormal_VIS.mat',focusOn)));

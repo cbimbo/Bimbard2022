@@ -200,8 +200,7 @@ function plotCompDetails(spkVIS,spkHPF,spkPredVIS,spkPredHPF,focusOn)
 
     nPC = size(reliability_VIS,2);
 
-    %figure('Name',focusOn,'Position',[600   602   444   328]);
-    figure('Name',focusOn,'Position',[600   602   557   328]);
+    figure('Name',focusOn,'Position',[600   602   444   328]);
 
     % Reliability
     % VIS
