@@ -11,7 +11,7 @@ function [neurAll,neurProj,motDat,baseIdx] = getDataBinnedToVideoFrames(db,P,bin
     fprintf('*** Cleaning the flashes... ***\n')
     tic
     for k = 1:P.nMice
-        avgIntensity = db(k).motSVD{2}(:,1);
+        avgIntensity = db(k).motSVD(:,1);
         [~,t] = max(abs(avgIntensity));
         avgIntensity = avgIntensity*sign(avgIntensity(t));
         intensMed = median(avgIntensity);
@@ -32,9 +32,7 @@ function [neurAll,neurProj,motDat,baseIdx] = getDataBinnedToVideoFrames(db,P,bin
         if success
             % replace with median values
             idx = [intensDown(1)-1:intensDown(1)+10 intensDown(2)-1:intensDown(2)+10];
-            for u = 1:numel(db(k).motSVD)
-                db(k).motSVD{u}(idx,:) = repmat(median(db(k).motSVD{u}),[numel(idx),1]);
-            end
+            db(k).motSVD(idx,:) = repmat(median(db(k).motSVD),[numel(idx),1]);
         end
     end
     toc
@@ -74,7 +72,7 @@ function [neurAll,neurProj,motDat,baseIdx] = getDataBinnedToVideoFrames(db,P,bin
         neurProj{k} = projectData((neurAll{k}-nanmean(neurAll{k}))./squeeze(sigma)',M);
 
         % Get mot data
-        motDat{k} = db(k).motSVD{2}(:,:,:,1);
+        motDat{k} = db(k).motSVD(:,:,:,1);
 
         fprintf('Done in %ss.\n',toc)
     end

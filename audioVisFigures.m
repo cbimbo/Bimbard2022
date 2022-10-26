@@ -26,21 +26,21 @@ predFile_fig4 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%
 
 % Supplementary Figures
 
-% Suppl. Fig. 8 (also used in 13)
-lagBehNeurFile_hpf_sfig8 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_%s.mat','Normal','HPF'));
-lagBehNeurFile_transec_sfig8 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_%s.mat','Transec','VIS'));
-subspaceFile_hpf_sfig8 = fullfile(preprocFolder,'SubspaceOverlap',sprintf('allSubspace_ephys%s_%s.mat','Normal','HPF'));
-subspaceFile_transec_sfig8 = fullfile(preprocFolder,'SubspaceOverlap',sprintf('allSubspace_ephys%s_%s.mat','Transec','VIS'));
+% Extended Data Fig. 6 (also used in 10)
+lagBehNeurFile_hpf_EDfig6 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_%s.mat','Normal','HPF'));
+lagBehNeurFile_transec_EDfig6 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_%s.mat','Transec','VIS'));
+subspaceFile_hpf_EDfig6 = fullfile(preprocFolder,'SubspaceOverlap',sprintf('allSubspace_ephys%s_%s.mat','Normal','HPF'));
+subspaceFile_transec_EDfig6 = fullfile(preprocFolder,'SubspaceOverlap',sprintf('allSubspace_ephys%s_%s.mat','Transec','VIS'));
 
-% Suppl. Fig. 10
-facemapWeightsFile_sfig10 = fullfile(preprocFolder,'Model',sprintf('facemapWeights_ephys%s_%s.mat','Normal','VIS'));
+% Extended Data 7
+facemapWeightsFile_EDfig7 = fullfile(preprocFolder,'Model',sprintf('facemapWeights_ephys%s_%s.mat','Normal','VIS'));
 
-% Suppl. Fig. 11
-predFile_video_NormalVIS_sfig11 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Normal','VIS'));
-predFile_sound_NormalHPF_sfig11 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','sound','ridge','Normal','HPF'));
-predFile_video_NormalHPF_sfig11 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Normal','HPF'));
-predFile_sound_TransecVIS_sfig11 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','sound','ridge','Transec','VIS'));
-predFile_video_TransecVIS_sfig11 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Transec','VIS'));
+% Extended Data 8
+predFile_video_NormalVIS_EDfig8 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Normal','VIS'));
+predFile_sound_NormalHPF_EDfig8 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','sound','ridge','Normal','HPF'));
+predFile_video_NormalHPF_EDfig8 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Normal','HPF'));
+predFile_sound_TransecVIS_EDfig8 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','sound','ridge','Transec','VIS'));
+predFile_video_TransecVIS_EDfig8 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','video','ridge','Transec','VIS'));
 
 % Transectomy sides--mainly for plotting reasons
 side_NormalVIS = load(mainFigFile_fig1,'sideTransec'); side_NormalVIS = side_NormalVIS.sideTransec;
@@ -303,7 +303,7 @@ fprintf('Auditory vs. behavioral model: p-value %d.\n',p_pred(1))
 fprintf('Auditory vs. full model: p-value %d.\n',p_pred(2))
 fprintf('Full vs. behavioral model: p-value %d.\n',p_pred(3))
 
-%% Suppl. Fig. 2--Similarity across animals and regions
+%% Extended Data Fig. 1--Similarity across animals and regions
 
 focusOn = 'video'; % or 'video'
 spkVIS = load(fullfile(preprocFolder,'Mainfig',sprintf('allMainfig_%s_ephysNormal_VIS.mat',focusOn)));
@@ -342,7 +342,7 @@ offsetAxes
 hline(1/12*100)
 ylim(yl)
 
-%% Suppl. Fig. 3--Eigenspectra
+%% Extended Data Fig. 2--Eigenspectra
 
 % VIS
 eigDat = load(eigenspectraFile_fig1,'r','compDimP');
@@ -356,14 +356,14 @@ plotEigenspectra(eigDat.r,eigDat.compDimP,side_NormalHPF);
 eigDat = load(eigenspectraFile_fig3,'r','compDimP');
 plotEigenspectra(eigDat.r,eigDat.compDimP,side_TransecVIS);
 
-%% Suppl. Fig. 5--Timecourse comparison beh. and neur.
+%% Extended Data Fig. 4--Timecourse comparison beh. and neur.
 
 mainFigDat = load(mainFigFile_fig1);
 behFigDat = load(behFigFile_fig4);
 
 plotAllSounds(mainFigDat,behFigDat)
 
-%% Suppl. Fig. 7--Pupil size and eye movements
+%% Extended Data Fig. 5--Pupil size and eye movements
 
 behFigDat = load(behFigFile_fig4);
 decDat = load(decodingFile_fig1);
@@ -378,46 +378,46 @@ plotBehFig(behFigDat.dat(find(strcmp({behFigDat.dat.name},'Pupil motion'))),behF
 % Decoding from
 [accVid,accSnd,p_dec] = plotDecoding(decDat.acc.pupmot,decDat.decP,mainFigDat.sideTransec,[1/12 1/12]*100,0);
 
-%% Suppl. Fig. 8--Crosscorrelation and subspace overlap for HPF and transectomy experiments
+%% Extended Data Fig. 6--Crosscorrelation and subspace overlap for HPF and transectomy experiments
 
-lagDat = load(lagBehNeurFile_hpf_sfig8,'xc','lags_xc');
-subOvDat = load(subspaceFile_hpf_sfig8);
+lagDat = load(lagBehNeurFile_hpf_EDfig6,'xc','lags_xc');
+subOvDat = load(subspaceFile_hpf_EDfig6);
 plotCrossCorrelogram(lagDat.xc,lagDat.lags_xc)
 plotSubspaceOverlap(subOvDat,side_NormalHPF);
 
-lagDat = load(lagBehNeurFile_transec_sfig8,'xc','lags_xc');
-subOvDat = load(subspaceFile_transec_sfig8);
+lagDat = load(lagBehNeurFile_transec_EDfig6,'xc','lags_xc');
+subOvDat = load(subspaceFile_transec_EDfig6);
 plotCrossCorrelogram(lagDat.xc,lagDat.lags_xc)
 plotSubspaceOverlap(subOvDat,side_TransecVIS);
 
-%% Suppl. Fig. 10--Weights
+%% Extended Data Fig. 7--Weights
 
 predDat = load(predFile_fig4);
-weights = load(facemapWeightsFile_sfig10);
+weights = load(facemapWeightsFile_EDfig7);
 plotPredResults(predDat) % second plot is the one
 plotPredFace(predDat,weights.facemapWeights)%,P.fileref.rootDir)
 
-%% Suppl. Fig. 11--Predictions by models
+%% Extended Data Fig. 8--Predictions by models
 
 % VIS
-predDat = load(predFile_video_NormalVIS_sfig11);
+predDat = load(predFile_video_NormalVIS_EDfig8);
 plotPredResults(predDat,side_NormalVIS)
 
 % HPF
-predDat = load(predFile_sound_NormalHPF_sfig11);
+predDat = load(predFile_sound_NormalHPF_EDfig8);
 plotPredResults(predDat,side_NormalHPF)
 
-predDat = load(predFile_video_NormalHPF_sfig11);
+predDat = load(predFile_video_NormalHPF_EDfig8);
 plotPredResults(predDat,side_NormalHPF)
 
 % Transectomy
-predDat = load(predFile_sound_TransecVIS_sfig11);
+predDat = load(predFile_sound_TransecVIS_EDfig8);
 plotPredResults(predDat,side_TransecVIS)
 
-predDat = load(predFile_video_TransecVIS_sfig11);
+predDat = load(predFile_video_TransecVIS_EDfig8);
 plotPredResults(predDat,side_TransecVIS)
 
-%% Suppl. Fig. 12--Single trial fluctuations
+%% Extended Data Fig. 9--Single trial fluctuations
 
 predDat = load(predFile_fig4);
 mainFigDat = load(mainFigFile_fig1,'mainFigP');
@@ -426,15 +426,15 @@ mainFigDat = load(mainFigFile_fig1,'mainFigP');
 % --- Quantif ---
 fprintf('Correlation for single trials : %d (p-value: %s).\n',z_ST,p_ST)
 
-%% Suppl. Fig. 13--Lag analysis
+%% Extended Data Fig. 10--Lag analysis
 
 lagDat = load(lagBehNeurFile_fig4,'w','lags_w');
 delays = plotLags(lagDat.w,lagDat.lags_w);
 
-lagDat = load(lagBehNeurFile_hpf_sfig8,'w','lags_w');
+lagDat = load(lagBehNeurFile_hpf_EDfig6,'w','lags_w');
 plotLags(lagDat.w,lagDat.lags_w)
 
-lagDat = load(lagBehNeurFile_transec_sfig8,'w','lags_w');
+lagDat = load(lagBehNeurFile_transec_EDfig6,'w','lags_w');
 plotLags(lagDat.w,lagDat.lags_w)
 
 % --- Quantif ---

@@ -16,10 +16,13 @@ function [db,P] = processData_paper(db,P,recompute)
         fprintf('Preprocessing mouse %s...',P.mouseRef{k})
 
         % minimal workspace should be saved somewhere
+        dataPath = fullfile(P.pathSaving,'processedData',P.exp);
         if ~isempty(db(k).imecX)
-            preproc_savingFileName = [P.pathSaving '\processedData\' P.exp '\' db(k).subject '_' db(k).date '_imec' num2str(db(k).imecX) '_preproc.mat'];
+            expRef = [db(k).subject '_' db(k).date '_imec' num2str(db(k).imecX)];
+            preproc_savingFileName = fullfile(dataPath,expRef,[db(k).subject '_' db(k).date '_imec' num2str(db(k).imecX) '_preproc.mat']);
         else
-            preproc_savingFileName = [P.pathSaving '\processedData\' P.exp '\' db(k).subject '_' db(k).date '_preproc.mat'];
+            expRef = [db(k).subject '_' db(k).date];
+            preproc_savingFileName = fullfile(dataPath,expRef,[db(k).subject '_' db(k).date '_preproc.mat']);
         end
     
         if ~recompute && exist(preproc_savingFileName,'file')
@@ -33,10 +36,9 @@ function [db,P] = processData_paper(db,P,recompute)
 
             % init
             spikeData = nan(nBins,numel(db(k).C.CluID),nTrials);
-            motionData = nan(nBins,size(db(k).motSVD{2},2),nTrials); 
+            motionData = nan(nBins,size(db(k).motSVD,2),nTrials); 
             pupilareaData = nan(nBins,1,nTrials);
             pupilcomData = nan(nBins,2,nTrials);
-            pupilmotData = nan(nBins,2,nTrials);
             blinkData = nan(nBins,1,nTrials);
 
             % Get spikes psths
@@ -70,7 +72,7 @@ function [db,P] = processData_paper(db,P,recompute)
                 for b = 1:nBins
                     idxBin = (db(k).videoTimestampsEphysTime_face > db(k).eventTimes(tr)+bins(b)-P.proc.binSize/2) & ...
                         (db(k).videoTimestampsEphysTime_face < db(k).eventTimes(tr)+bins(b)+P.proc.binSize/2); % get time stamps for this trial
-                    tmp = mean(db(k).motSVD{2}(idxBin,:),1);
+                    tmp = mean(db(k).motSVD(idxBin,:),1);
                     motionData(b, 1:numel(tmp), tr) = tmp;
                 end
             end
@@ -82,7 +84,6 @@ function [db,P] = processData_paper(db,P,recompute)
                         (db(k).videoTimestampsEphysTime_eye < db(k).eventTimes(tr)+bins(b)+P.proc.binSize/2); % get time stamps for this trial
                     pupilareaData(b, 1, tr) = mean(db(k).pupilarea(idxBin));
                     pupilcomData(b,:,tr) = mean(db(k).pupilcom(idxBin,:));
-                    pupilmotData(b,:,tr) = mean(db(k).pupilmot(idxBin,:));
                     blinkData(b, 1, tr) = mean(db(k).blink(idxBin));
                 end
             end
@@ -108,6 +109,8 @@ function [db,P] = processData_paper(db,P,recompute)
 
                 pupilmotData = diff(pupilcomData);
                 pupilmotData = cat(1,pupilmotData(1,:,:),pupilmotData);
+            else
+                pupilmotData = nan(nBins,2,nTrials);
             end
 
             % save it

@@ -3,8 +3,8 @@ close all
 %% Load preprocessed data
 
 % Choose what dataset to use
-what2Load = 'Normal';
-% what2Load = 'Transec';
+% what2Load = 'Normal';
+what2Load = 'Transec';
 
 preprocFolder = 'D:\ephys_results\processedData\audioVis\';
 
@@ -33,8 +33,8 @@ end
 % Can bypass it easily by modifying the code.
 
 % Cell subselection parameters--subselect a specific brain area
-% P.focusOnArea = 'VIS';
-P.focusOnArea = 'HPF';
+P.focusOnArea = 'VIS';
+% P.focusOnArea = 'HPF';
 
 P_bu.path2CCF = '\\zserver\Lab\Atlas\allenCCF'; % Path to the allen CCF
 [db,P,Nc] = subselectCells(db_bu,P_bu,P.focusOnArea,1);
@@ -204,7 +204,7 @@ end
 
 % Save the masks to reconstruct the weights in pixel space
 facemapWeightsFile = fullfile(preprocFolder,'Model',sprintf('facemapWeights_ephys%s_%s.mat',what2Load,P.focusOnArea));
-facemapWeights = cellfun(@(x) x{2}(:,:,1:predP.motpc2keepfix), {db.uMotMask}, 'uni', 0);
+facemapWeights = cellfun(@(x) x(:,:,1:predP.motpc2keepfix), {db.uMotMask}, 'uni', 0);
 save(facemapWeightsFile,'facemapWeights','-v7.3')
 
 %% Lag between behavior and neural activity

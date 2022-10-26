@@ -1,6 +1,6 @@
-function [C, audiovisuoCode, trialNumPerStim, P, ...
+function [C, audiovisuoCode, P, ...
         eventTimes, sp, motSVD, videoTimestampsEphysTime_face, uMotMask, ...
-        pupilarea, pupilcom, pupilmot, blink, videoTimestampsEphysTime_eye] = ...
+        pupilarea, pupilcom, blink, videoTimestampsEphysTime_eye] = ...
         loadDataEphys_paper(subject, date, imecX, P, recompute)
 
     if ~exist('recompute','var')
@@ -8,14 +8,17 @@ function [C, audiovisuoCode, trialNumPerStim, P, ...
     end
 
     % minimal workspace should be saved somewhere
+    dataPath = fullfile(P.pathSaving,'processedData',P.exp);
     if ~isempty(imecX)
-        raw_savingFileName = [P.pathSaving '\processedData\' P.exp '\' subject '_' date '_imec' num2str(imecX) '_raw.mat'];
+        expRef = [subject '_' date '_imec' num2str(imecX)];
     else
-        raw_savingFileName = [P.pathSaving '\processedData\' P.exp '\' subject '_' date '_raw.mat'];
+        expRef = [subject '_' date];
     end
     
-    if ~recompute && exist(raw_savingFileName,'file')
-        load(raw_savingFileName)
+    if ~recompute && exist(fullfile(dataPath,expRef))
+        [C, audiovisuoCode, P, ...
+        eventTimes, sp, motSVD, videoTimestampsEphysTime_face, uMotMask, ...
+        pupilarea, pupilcom, blink, videoTimestampsEphysTime_eye] = loadONE(dataPath, expRef);
     else
         %% Note
         % This part will only work on my computer. It loads the very raw
@@ -688,14 +691,21 @@ function [C, audiovisuoCode, trialNumPerStim, P, ...
         P.miceweye = logical(P.miceweye); % for some reason doesn't work when inputing directly true or false...
 
         % save data
-        if ~exist(fullfile(P.pathSaving,'processedData',P.exp), 'dir')
-            mkdir(fullfile(P.pathSaving,'processedData',P.exp))
+        if ~exist(dataPath, 'dir')
+            mkdir(dataPath)
         end
 
-        save(raw_savingFileName, 'P', ... % parameters
-            'eventTimes','audiovisuoCode', 'trialNumPerStim', ... % stim related
-            'sp', 'C', ... % spikes related
-            'motSVD', 'videoTimestampsEphysTime_face', 'uMotMask', ... % face motion related
-            'pupilarea', 'pupilcom', 'pupilmot', 'blink', 'videoTimestampsEphysTime_eye', ... % eye motion related
-            '-v7.3')
+        dat.audiovisuoCode = audiovisuoCode;
+        dat.eventTimes = eventTimes;
+        dat.P = P;
+        dat.sp = sp;
+        dat.C = C;
+        dat.blink = blink;
+        dat.pupilarea = pupilarea;
+        dat.pupilcom = pupilcom;
+        dat.videoTimestampsEphysTime_eye = videoTimestampsEphysTime_eye;
+        dat.motSVD = motSVD;
+        dat.uMotMask = uMotMask;
+        dat.videoTimestampsEphysTime_face = videoTimestampsEphysTime_face;
+        save2ONE(dataPath,expRef,dat)
     end

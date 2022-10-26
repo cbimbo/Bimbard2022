@@ -54,7 +54,7 @@ function [db,P,Nc] = subselectCells(db,P,focusOnArea,pltFig)
     idx2keep = cell(1,P.nMice);
     for k = 1:P.nMice
         % subselect unit type
-        idxUnitType = ismember(db(k).C.CluLab, P.proc.lab2keep); idxUnitType = idxUnitType(:)';
+        idxUnitType = ismember(db(k).C.CluLab, P.proc.lab2keep); 
         
         % subselect spike number
         idxSpknum = db(k).C.CluSpknum > P.proc.spkNumThre;
@@ -71,12 +71,12 @@ function [db,P,Nc] = subselectCells(db,P,focusOnArea,pltFig)
             spikeTimes = db(k).sp.st(db(k).sp.clu == clu);
             [db(k).C.ISIViol(c), ~] = computeISIViolations(spikeTimes,P.proc.tauR,P.proc.tauC);
         end
-        idxISIViol = db(k).C.ISIViol < P.proc.ISIViolThre;
+        idxISIViol = (db(k).C.ISIViol < P.proc.ISIViolThre)';
 
         % make sure there's no duplicate
         tmp = reshape(permute(db(k).spikeData,[1 3 2]),[P.nBins*size(db(k).spikeData,3),size(db(k).spikeData,2)]);
         corrtmp = corr(tmp,tmp);
-        idxDuplicate = ~(sum(triu(corrtmp)>0.99)>1);
+        idxDuplicate = ~(sum(triu(corrtmp)>0.99)>1)';
         
         % subselect combined
         idx2keep{k} = idxArea & idxDepth & idxUnitType & idxSpknum & idxISIViol & idxDuplicate;
