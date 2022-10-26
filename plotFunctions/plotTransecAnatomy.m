@@ -1,4 +1,8 @@
-clear all
+%%% This code needs cleaning. In short, it will use the .obj that contain
+%%% the anatomy of the cut, and the injection data fromt the Allen Mouse 
+%%% Brain Atlas to compute the number of fibers from auditory to visual
+%%% cortex, before and after transectomy.
+
 close all
 
 %% Load CCF atlas
@@ -54,15 +58,16 @@ aud.vL(:,1) = i(k>midline); aud.vL(:,2) = j(k>midline); aud.vL(:,3) = k(k>midlin
 clear i j k
 
 %% Animal references
-animals = {'CR_transectomy3','Transectomy7','Transectomy8'};
+animals = {'CR_transectomy3','CR_transectomy7','CR_transectomy8'};
 
 for ani = 1:numel(animals)
     animal = animals{ani};
-    cut{ani} = readObj(fullfile('D:\BrainSaw',animal,'downsampled_stacks\025_micron\brainreg_output\manual_segmentation\standard_space\regions\cut.obj'));
+    cut{ani} = readObj(fullfile('D:\ephys_results\processedData\audioVis\TransectomyAnat',[animal '_cut.obj']));
 end
 
 %% Load axon tractographies
-streamlines_path = 'C:\Users\Hamish\Desktop\InjectionsA1_AllenBrainAtlas';
+% These can be obtained using Python code downloadStreamlineFiles.py
+streamlines_path = 'C:\Users\Hamish\OneDrive - University College London\Dossiers_UCL\Papers\2022-Bimbard_etal-Behavioural-origin-of-sound-evoked-activity-in-mouse-visual-cortex\InjectionsA1_AllenBrainAtlas';
 
 % get info about experiments
 T = readtable(fullfile(streamlines_path, 'projection_search_results.csv'));
@@ -84,17 +89,8 @@ distlimVIS = 50;
 if addInjSite
     warning('Warning. Adding injection site at the beginning of each branche to compute intersect with the cut. Not conservative.')
 end
-    
-%%% note that here might be some weird fibers coming out of nowhere that
-%%% will still be counted -- but that's a first attempt. It can only
-%%% decrease the amount we actually cut?
 
-%%% also, take only the endpoint? -- otherwise, some axons are just passing by
-%%% V1 but then really seem to project only to some other place?
-%%% or remove the ones of which starting point is very far from injection
-%%% site
-
-%%% finally, note that some fibers will "start" quite away from injection
+%%% note that some fibers will "start" quite away from injection
 %%% point -- not sure how to deal with that, esp. if injection point is
 %%% right at the cut, and fibers start on the other side!
 

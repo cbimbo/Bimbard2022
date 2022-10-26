@@ -1,6 +1,7 @@
 %% Define general file names
 
 preprocFolder = 'D:\ephys_results\processedData\audioVis\';
+transecAnatFolder = 'C:\Users\Hamish\OneDrive - University College London\Documents\GitHub\Bimbard2022\transecAnat';
 
 % Main Figures
 % Fig. 1
@@ -138,7 +139,6 @@ eigDatTransec = load(eigenspectraFile_fig3);
 decDatTransec = load(decodingFile_fig3);
 eigDatNormal = load(eigenspectraFile_fig1);
 decDatNormal = load(decodingFile_fig1);
-transecAnatFolder = 'C:\Users\Hamish\OneDrive - University College London\Documents\GitHub\Bimbard2022\transecAnat';
 
 [c_ContravsIpsi,p_ContravsIpsi,c_Contra,p_Contra,c_Ipsi,p_Ipsi] = plotTransecFig(mainFigDatTransec,eigDatTransec);
 
