@@ -1,5 +1,5 @@
 %%% This code needs cleaning. In short, it will use the .obj that contain
-%%% the anatomy of the cut, and the injection data fromt the Allen Mouse 
+%%% the anatomy of the cut, and the injection data from the Allen Mouse 
 %%% Brain Atlas to compute the number of fibers from auditory to visual
 %%% cortex, before and after transectomy.
 
