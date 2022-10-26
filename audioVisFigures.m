@@ -24,7 +24,7 @@ lagBehNeurFile_fig4 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_
 subspaceFile_fig4 = fullfile(preprocFolder,'SubspaceOverlap',sprintf('allSubspace_ephys%s_%s.mat','Normal','VIS'));
 predFile_fig4 = fullfile(preprocFolder,'Model',sprintf('pred-%s_reg-%s_ephys%s_%s.mat','sound','ridge','Normal','VIS'));
 
-% Supplementary Figures
+% Extended Data Figures
 
 % Extended Data Fig. 6 (also used in 10)
 lagBehNeurFile_hpf_EDfig6 = fullfile(preprocFolder,'Lags',sprintf('lagBehNeur_ephys%s_%s.mat','Normal','HPF'));
@@ -138,13 +138,14 @@ eigDatTransec = load(eigenspectraFile_fig3);
 decDatTransec = load(decodingFile_fig3);
 eigDatNormal = load(eigenspectraFile_fig1);
 decDatNormal = load(decodingFile_fig1);
+transecAnatFolder = 'C:\Users\Hamish\OneDrive - University College London\Documents\GitHub\Bimbard2022\transecAnat';
 
 [c_ContravsIpsi,p_ContravsIpsi,c_Contra,p_Contra,c_Ipsi,p_Ipsi] = plotTransecFig(mainFigDatTransec,eigDatTransec);
 
 figure('Position',[595   685   763   293]);
 % Auditory input
 subplot(151)
-audIn = load(fullfile(preprocFolder,'TransectomyAnat','auditoryInput.mat'));
+audIn = load(fullfile(transecAnatFolder,'TransectomyAnat','auditoryInput.mat'));
 maxIn = nan(1,numel(audIn.A));
 audInContra = nan(1,numel(audIn.A));
 audInIpsi = nan(1,numel(audIn.A));
@@ -202,7 +203,7 @@ fprintf('Correlation of audPC1 ipsi vs. Fig1: %d (p-value: %d).\n', c_Ipsi,p_Ips
 fprintf('Correlation of audPC1 contra vs. Fig1: %d (p-value: %d).\n', c_Contra,p_Contra)
 
 % Ratio
-ratio = load(fullfile(preprocFolder,'TransectomyAnat','superprocessedData_ratioTransec.mat'));
+ratio = load(fullfile(transecAnatFolder,'TransectomyAnat','superprocessedData_ratioTransec.mat'));
 fprintf('Ratio contra/ipsi: %s (average: %d)', num2str(1./ratio.ratio), mean(1./ratio.ratio))
 
 % Expected explained variance
