@@ -6,6 +6,6 @@ idxnan = idxnan_y | idxnan_ypred;
 y(idxnan,:) = [];
 ypred(idxnan,:) = [];
 
-c = sum((y-mean(y)).*(ypred-mean(y)))/(numel(y)-1);
+c = sum((y-mean(y)).*(ypred-mean(y)))/(size(y,1)-1);
 
 end
