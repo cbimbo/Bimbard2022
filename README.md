@@ -1,5 +1,5 @@
-# Code accompanying Bimbard et al., Nat. Neuroscience, 2022
-Code to reproduce the figures from Bimbard et al., 2022, "Behavioral origin of sound-evoked activity in mouse visual cortex".
+# Code accompanying Bimbard et al., Nat. Neuroscience, 2023
+Code to reproduce the figures from [Bimbard et al., 2023, "Behavioral origin of sound-evoked activity in mouse visual cortex"](https://www.nature.com/articles/s41593-022-01227-x).
 
 Companion data is available on [Figshare](https://doi.org/10.6084/m9.figshare.21371247.v2), and follows the [ONE filename convention](https://int-brain-lab.github.io/iblenv/one_docs/one_reference.html#).
 
